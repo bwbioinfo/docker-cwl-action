@@ -15,23 +15,23 @@ runs:
   - name: Setup Python
     run: |
       pip install cwltool
-    shell: bash
+    shell: bash -el {0}
   - name: Setup Docker
     if: ${{ runner.os == 'macOS' }}
     run: |
       brew install docker
-    shell: bash
+    shell: bash -el {0}
   - name: Get CWL Version
     run: |
       $(cwltool --version)
-    shell: bash
+    shell: bash -el {0}
   - name: Get Docker Version
     run: |
       $(docker --version)
-    shell: bash
+    shell: bash -el {0}
   - name: Run CWL
     run: |
       echo "# Run tests" >> $GITHUB_STEP_SUMMARY
       echo "test: ${{ inputs.test-file }} input ${{ inputs.inputs-file }} " >> $GITHUB_STEP_SUMMARY
       echo cwltool --verbose --docker ${{ inputs.test-file }} --input ${{ inputs.inputs-file }}
-    shell: bash
+    shell: bash -el {0}
