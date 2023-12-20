@@ -23,11 +23,11 @@ runs:
     shell: bash -el {0}
   - name: Get CWL Version
     run: |
-      $(cwltool --version)
+      cwltool --version
     shell: bash -el {0}
   - name: Get Docker Version
     run: |
-      $(docker --version)
+      docker --version
     shell: bash -el {0}
   - name: Run CWL
     run: |
