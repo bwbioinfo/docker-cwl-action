@@ -1,0 +1,32 @@
+name: 'Docker CWL Testing'
+description: 'Test CWL run with dockerized tools'
+inputs:
+  test-file: 
+    description: 'The CWL containing the workflow to test'
+    required: true
+  inputs-file: 
+    description: 'The YML containing the workflow inputs'
+    required: true
+runs:
+  using: "composite"
+  steps:
+  - name: Checkout code
+    uses: actions/checkout@v3
+  - name: Setup Python
+    run: |
+      pip install cwltool
+  - name: Setup Docker
+    if: ${{ runner.os == 'macOS' }}
+    run: |
+      brew install docker
+  - name: Get CWL Version
+    run: |
+      $(cwltool --version)
+  - name: Get Docker Version
+    run: |
+      $(docker --version)
+  - name: Run CWL
+    run: |
+      echo "# Run tests" >> $GITHUB_STEP_SUMMARY
+      echo "test: ${{ inputs.test-file }} input ${{ inputs.inputs-file }} " >> $GITHUB_STEP_SUMMARY
+      echo cwltool --verbose --docker ${{ inputs.test-file }} --input ${{ inputs.inputs-file }}
